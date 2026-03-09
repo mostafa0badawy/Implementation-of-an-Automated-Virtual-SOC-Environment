@@ -1,0 +1,9 @@
+POST /_bulk
+{"index":{"_index":"emails"}}
+{"timestamp":"2025-10-08T10:05:00Z","from":"security@bank-secure.com","to":"user@example.com","subject":"Verify your account","body":"Click here to verify: http://bit.ly/evil","processed":false}
+{"index":{"_index":"emails"}}
+{"timestamp":"2025-10-08T10:10:00Z","from":"newsletter@news.com","to":"user@example.com","subject":"Weekly news","body":"Hello, enjoy this week's updates.","processed":false}
+
+
+
+
