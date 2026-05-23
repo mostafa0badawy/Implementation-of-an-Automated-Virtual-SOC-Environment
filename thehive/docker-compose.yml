@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  cassandra:
+    image: cassandra:3.11
+    container_name: cassandra
+    environment:
+      - MAX_HEAP_SIZE=512M
+      - HEAP_NEWSIZE=100M
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+    networks:
+      - soc-net
+    restart: always
+
+  thehive:
+    image: strangebee/thehive:5.2.0
+    container_name: thehive
+    depends_on:
+      - cassandra
+    environment:
+      - CASSANDRA_CONTACT_POINTS=cassandra
+      - CASSANDRA_CLUSTER_NAME=thehive
+      - CASSANDRA_KEYSPACE=thehive
+      - STORAGE_TYPE=elasticsearch
+      - STORAGE_ES_HOSTS=http://elasticsearch:9200
+      - THEHIVE_ELASTICSEARCH__INDEX__NAME=thehive
+    ports:
+      - "9000:9000"
+    networks:
+      - soc-net
+    restart: always
+
+networks:
+  soc-net:
+    external: true
+
+volumes:
+  cassandra_data:
